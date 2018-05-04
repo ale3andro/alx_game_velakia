@@ -1,0 +1,30 @@
+/*!
+ * Start Bootstrap - Blog Post (https://startbootstrap.com/template-overviews/blog-post)
+ * Copyright 2013-2017 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-blog-post/blob/master/LICENSE)
+ */
+
+body {
+  padding-top: 54px;
+}
+
+@font-face {
+  font-family: segment7;
+  src: url('../font/7segment.woff');
+}
+
+@media (min-width: 992px) {
+  body {
+    padding-top: 56px;
+  }
+}
+
+#alxtime {
+  font-size: 100%;
+  font-family: segment7;
+}
+
+#alxscore {
+  font-size: 500%;
+  font-family: segment7;
+}
