@@ -84,7 +84,7 @@
     <title>Τα βελάκια του πληκτρολογίου</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../bower_components/bootstrap4/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="css/blog-post.css" rel="stylesheet">
