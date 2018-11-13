@@ -39,7 +39,7 @@
           <div class="col-md-4">
             <select id="frm_school" name="frm_school" class="form-control">
               <option value="0">1ο Δημοτικό Γιαννιτσών</option>
-              <option value="1">6ο Δημοτικό Γιαννιτσών</option>
+              <option value="1">11ο Δημοτικό Γιαννιτσών</option>
               <option value="2">Άλλο</option>
             </select>
           </div>
@@ -58,14 +58,15 @@
         ';
     }
 
-    function get_table_line($score, $date, $name, $class, $school) {
+    function get_table_line($score, $date, $name, $class, $school, $year) {
       return '<div class="row">
                   <div class="col-sm-1">' . $score . '</div>
                   <div class="col-sm-1 col-lg-2">' . $date. '</div>
                   <div class="col-sm-1 col-lg-2">' . $name . '</div>
                   <div class="col-sm-1 col-lg-2">' . $class . '</div>
-                  <div class="col-sm-1 col-lg-4">' . $school . '</div>
-              </div>';
+                  <div class="col-sm-1 col-lg-2">' . $school . '</div>
+                  <div class="col-sm-1 col-lg-2">' . $year . '</div>
+              </div><hr />';
     }
 
     $db_filename = "high_scores/high_scores.db";
@@ -113,7 +114,8 @@
           <?php 
                 if (isset($_POST['score'])) {
                   $db = new SQLite3($db_filename);
-                  $results = $db->query('SELECT (SELECT count() FROM scores where score>' . $_POST['score'] . ') as count, * from scores');
+                  $current_year = $db->query('SELECT * FROM current_year')->fetchArray()[0];
+                  $results = $db->query('SELECT (SELECT count() FROM scores where year="' . $current_year . '" and score>' . $_POST['score'] . ') as count, * from scores');
                   if ($results->fetchArray()[0]>=10) {
                     echo '<div class="container"><div class="row">';
                     echo '<div class="col-sm-5"><div class="card my-4"><h5 class="card-header">Αποτέλεσμα</h5><div class="card-body"><div class="row"><div class="col-lg-12"><img src="img/sad_face.png" />
@@ -162,7 +164,7 @@
                         $s_school = "1ο Δημοτικό Γιαννιτσών";
                         break;
                       case 1:
-                        $s_school = "6ο Δημοτικό Γιαννιτσών";
+                        $s_school = "11ο Δημοτικό Γιαννιτσών";
                         break;
                       case 2:
                         $s_school = "Άλλο";
@@ -171,8 +173,11 @@
                     $s_date = date("Y-m-d");
                     shell_exec('sudo chgrp -R www-data high_scores && sudo chmod -R 775 high_scores');
                     $db = new SQLite3($db_filename);
+                    $current_year = $db->query('SELECT * FROM current_year')->fetchArray()[0];
+                    echo $current_year;
+
                     $db->exec('BEGIN');
-                    $command = 'insert into scores values (' . $_POST['frm_score'] . ', "' . $s_date . '", "' . $_POST['frm_name'] . '", "' . $s_class . '", "' . $s_school . '")';
+                    $command = 'insert into scores values (' . $_POST['frm_score'] . ', "' . $s_date . '", "' . $_POST['frm_name'] . '", "' . $s_class . '", "' . $s_school . '", "' .  $current_year . '")';
                     if (!$db->exec($command))
 	                    die("unable to save");
                     $db->exec('COMMIT');
@@ -185,7 +190,7 @@
                     echo "</div></div>";
                 } else {
                     echo '<!-- Author -->
-                            <p class="lead">Hall of Fame - Οι 10 καλύτεροι χρόνοι</p>
+                            <p><h3 class="bg-success">Hall of Fame - Οι 10 καλύτεροι χρόνοι - Φέτος</h3></p>
                             <hr>
                             <div class="container">
                                 <div class="row">
@@ -194,11 +199,32 @@
                                     <div class="col-sm-1 col-lg-2">Όνομα</div>
                                     <div class="col-sm-1 col-lg-2">Τμήμα</div>
                                     <div class="col-sm-1 col-lg-2">Σχολείο</div>
+                                    <div class="col-sm-1 col-lg-2">Χρονιά</div>
+                                </div>';
+                    $db = new SQLite3($db_filename);
+                    $current_year = $db->query('SELECT * FROM current_year')->fetchArray()[0];
+                    $results = $db->query('SELECT * FROM scores where year="' . $current_year . '" order by score DESC, date ASC limit 10');
+                    while ($row = $results->fetchArray()) {
+                        echo get_table_line($row[0], $row[1], $row[2], $row[3], $row[4], $row[5]);
+                    }
+                    echo '</div>';
+
+                    echo '<!-- Author -->
+                            <p><h3 class="bg-success">Hall of Fame - Οι 10 καλύτεροι χρόνοι όλων των εποχών</h3></p>
+                            <hr>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-1">Σκορ</div>
+                                    <div class="col-sm-1 col-lg-2">Ημερομηνία</div>
+                                    <div class="col-sm-1 col-lg-2">Όνομα</div>
+                                    <div class="col-sm-1 col-lg-2">Τμήμα</div>
+                                    <div class="col-sm-1 col-lg-2">Σχολείο</div>
+                                    <div class="col-sm-1 col-lg-2">Χρονιά</div>
                                 </div>';
                     $db = new SQLite3($db_filename);
                     $results = $db->query('SELECT * FROM scores order by score DESC, date ASC limit 10');
                     while ($row = $results->fetchArray()) {
-                        echo get_table_line($row[0], $row[1], $row[2], $row[3], $row[4]);
+                        echo get_table_line($row[0], $row[1], $row[2], $row[3], $row[4], $row[5]);
                     }
                     echo '</div>';
                     echo '<div class="col-sm-5"><div class="card my-4"><h5 class="card-header">Παίξε πάλι!</h5><div class="card-body"><div class="row"><div class="col-lg-12">
