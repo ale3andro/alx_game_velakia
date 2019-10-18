@@ -18,13 +18,13 @@ $("#alxtime").html(mytimer);
 
 var clock = $('#alxtime').FlipClock(mytimer, {
     autostart: false,
-    clockFace: 'Counter',
-    countdown: false,
+    clockFace: 'Counter'
   });
  
 
 $("#alxstartbutton").click(function() {
-  imageChangeTimer();  
+  $("#alxstartbutton").hide();
+  imageChangeTimer(); 
 });
 
 function startGame() {
@@ -37,9 +37,10 @@ function startGame() {
 
 function nextWord() {
     if ((wordCounter)==words.length) {
-        console.log('end of the game');
+        //console.log('end of the game');
         gameEnded=true;
     } else {
+        //console.log('Next word');
         currentWord = words[wordCounter++];
         currentLetter=0;
         $('#alxword').empty();
@@ -48,7 +49,6 @@ function nextWord() {
         $("#letter0").css("font-size", "400%").css("color", "red");  
     }
 }
-
 
 function getNextLetter() {
     $("#letter" + currentLetter).css("font-size", "50%").css("color", "black");
@@ -77,25 +77,22 @@ function timer() {
     clock.increment();
     setTimeout(timer, 1000);
   } else {
-    console.log('game over!');
     if (mytimer<20)
         $('#alxword').html('Τα δάχτυλα σου πετάνε φωτιές!!');
     else if (mytimer<40)
         $('#alxword').html('Είσαι σε πολύ καλό δρόμο!');
     else 
         $('#alxword').html('Χρειάζεσαι εξάσκηση...');
-
   }
   
 }
-
-$("body").on("keydown", function (e) {
-  if (gameStarted==1) {      
+$("body").on("keydown", function (e) {  
+  if (gameStarted==1) { 
     if (e.key==currentWord[currentLetter]) {
-        accuracy++;
+      accuracy++;
       $("#alxscore").html(accuracy);
       getNextLetter();
     }
-    e.preventDefault(); // prevent the default action (scroll / move caret)
   }
+  e.preventDefault();
 });
