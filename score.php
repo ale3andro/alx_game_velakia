@@ -70,6 +70,15 @@
     }
 
     $db_filename = "high_scores/high_scores.db";
+
+    $gameid=0;
+    if (isset($_REQUEST['gameid'])) {
+      $gameid=intval($_REQUEST['gameid']);
+    }
+    $db = new SQLite3($db_filename);
+    $game = $db->query('SELECT * FROM game_ids WHERE id=' . $gameid)->fetchArray()[1];
+    if ($game=='')
+      die('<h1>Δεν υπάρχει παιχνίδι με αυτό το id</h1>');
 ?>
 
 <!DOCTYPE html>
@@ -82,7 +91,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Τα βελάκια του πληκτρολογίου</title>
+    <title><?php echo $game; ?></title>
 
     <!-- Bootstrap core CSS -->
     <link href="../bower_components/bootstrap4/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -109,7 +118,7 @@
         <div class="col-lg-8">
 
           <!-- Title -->
-          <h1 class="mt-4">Βελάκια Πληκτρολογίου</h1>
+          <h1 class="mt-4"><?php echo $game; ?></h1>
 
           <?php 
                 if (isset($_POST['score'])) {

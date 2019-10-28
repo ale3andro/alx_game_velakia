@@ -66,7 +66,7 @@ function timer() {
     $("#alximage").attr("src", "img/game_over.png");
     $("#alxdance").attr("src", "img/dance.gif");
     gameStarted=0;
-    $('#alx_hiddenscoreform').html('<form id="alx_invisible_form" action="score.php" method="post"><input name="score" type="hidden" value="' + score + '"></form>');
+    $('#alx_hiddenscoreform').html('<form id="alx_invisible_form" action="score.php" method="post"><input name="score" type="hidden" value="' + score + '"><input name="gameid" type="hidden" value="0"></form>');
     $('#alx_invisible_form').submit();
   }
   else {
@@ -141,22 +141,4 @@ function getNextImage(theLevel) {
     return Math.floor(Math.random() * 4);
   }
 
-}
-
-function sendScore() {
-  var request = $.ajax({
-    url: "score.php",
-    type: "POST",
-    data: { score: 99,
-            },
-    dataType: "html"
-  });
-  
-  request.done(function(msg) {
-    alert(msg);
-  });
-  
-  request.fail(function(jqXHR, textStatus) {
-    alert( "Request failed: " + textStatus );
-  });
 }
