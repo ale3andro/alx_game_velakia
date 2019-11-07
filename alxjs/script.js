@@ -11,7 +11,7 @@ level=3;
 $('#alxlevel').text(level);
 
 var score = 0;
-var mytimer=3; // δευτερόλεπτα  TODO κάντο 30
+var mytimer=30; // δευτερόλεπτα  TODO κάντο 30
 var gameStarted=0; // 0 όταν το παιχνίδι δεν έχει αρχίσει, 1 όταν έχει αρχίσει
 var currentImage=0;
 var newcurrentImage=0;
@@ -67,7 +67,7 @@ function timer() {
     console.log('game over!' + score);
 
     $.ajax({
-      url: 'http://192.168.1.2:3000/checkScore/0/'+200,
+      url: 'http://192.168.1.2:3000/checkScore/0/'+score,
       contentType: "application/json",
       dataType: "json",
       success: function(result){
