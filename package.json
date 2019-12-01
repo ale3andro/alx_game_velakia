@@ -1,36 +1,15 @@
 {
-  "title": "Blog Post",
-  "name": "startbootstrap-blog-post",
-  "version": "4.0.0-beta.2",
-  "description": "A basic blog post HTML template built with Bootstrap",
-  "keywords": [
-    "css",
-    "sass",
-    "html",
-    "responsive",
-    "theme",
-    "template"
-  ],
-  "homepage": "https://startbootstrap.com/template-overviews/blog-post",
-  "bugs": {
-    "url": "https://github.com/BlackrockDigital/startbootstrap-blog-post/issues",
-    "email": "feedback@startbootstrap.com"
-  },
-  "license": "MIT",
-  "author": "Start Bootstrap",
-  "contributors": [
-    "David Miller (http://davidmiller.io/)"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/BlackrockDigital/startbootstrap-blog-post.git"
-  },
+  "name": "alx_game_velakia",
+  "version": "1.0.0",
+  "description": "Παιχνίδι με βελάκια πληκτρολογίου και πληκτρολόγηση",
+  "main": "index.js",
+  "repository": "git@github.com:ale3andro/alx_game_velakia.git",
+  "author": "ale3andro <ale3andro@gmail.com>",
+  "license": "GNU",
   "dependencies": {
-    "bootstrap": "^4.0.0-beta.2",
-    "jquery": "^3.2.1"
-  },
-  "devDependencies": {
-    "browser-sync": "2.18.13",
-    "gulp": "^3.9.1"
+    "bootstrap": "^4.4.1",
+    "jquery": "^3.4.1",
+    "jquery-ui-dist": "^1.12.1",
+    "popper.js": "^1.16.0"
   }
 }
